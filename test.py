@@ -1,37 +1,10 @@
-    n = int(input())
-    d = []
+import torch
 
-    for _ in range(n+1):
-        a = list(map(int, input().split()))
-        d.append(a)
+print("Is CUDA supported by this system?", torch.cuda.is_available())
+print(f"CUDA version: {torch.version.cuda}")
 
-    def greedytsp(d, n):
-        cur = 1
-        s = [cur]
-        c = set()
-        for i in range(1, n+1):
-            if i != cur:
-                c.add(i)  
-        f = 0
-
-        while len(c) > 0:
-            x = select(c, cur)
-            f += d[cur-1][x-1]
-            s.append(x)
-            c.remove(x)
-            cur = x
-            
-        #f += d[cur][1]
-
-        return s
-
-    def select(c, cur):
-        minD = 1000000000
-        for x in c:
-            if d[cur-1][x-1] < minD:
-                minD = d[cur-1][x-1]
-                selectpoint = x
-        return selectpoint
-    print(n)
-    for item in greedytsp(d, n):
-        print(item, end = ' ')
+# Storing ID of current CUDA device
+cuda_id = torch.cuda.current_device()
+print("ID of current CUDA device:", torch.cuda.current_device())
+	
+print("Name of current CUDA device:", torch.cuda.get_device_name(cuda_id))
